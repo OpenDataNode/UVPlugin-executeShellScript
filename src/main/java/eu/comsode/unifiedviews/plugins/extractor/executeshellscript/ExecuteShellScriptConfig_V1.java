@@ -4,11 +4,11 @@ package eu.comsode.unifiedviews.plugins.extractor.executeshellscript;
  */
 public class ExecuteShellScriptConfig_V1 {
 
-    private String scriptName;
+    private String scriptName = "";
 
-    private String configuration;
+    private String configuration = "";
 
-    private String outputDir;
+    private String outputDir = "";
 
     public ExecuteShellScriptConfig_V1() {
 
