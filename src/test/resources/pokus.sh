@@ -1,4 +1,4 @@
-#/usr/bin/bash
+#!/bin/bash
 while IFS=, read aa;do
         param=$aa
 done < $1

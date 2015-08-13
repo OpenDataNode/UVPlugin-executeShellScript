@@ -1,4 +1,4 @@
-#/usr/bin/bash
+#!/bin/bash
 while read aa;do
     echo $aa
     IFS=' ' read -a array <<< "$aa"

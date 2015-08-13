@@ -1,15 +1,16 @@
 package eu.comsode.unifiedviews.plugins.extractor.executeshellscript;
 
+import java.io.ByteArrayOutputStream;
 import java.io.File;
 import java.io.FileWriter;
 import java.io.IOException;
 import java.net.URI;
-import java.util.ArrayList;
 import java.util.Date;
-import java.util.List;
 
 import org.apache.commons.exec.CommandLine;
 import org.apache.commons.exec.DefaultExecutor;
+import org.apache.commons.exec.ExecuteStreamHandler;
+import org.apache.commons.exec.PumpStreamHandler;
 import org.apache.commons.io.IOUtils;
 import org.slf4j.Logger;
 import org.slf4j.LoggerFactory;
@@ -42,10 +43,6 @@ public class ExecuteShellScript extends AbstractDpu<ExecuteShellScriptConfig_V1>
     @DataUnit.AsOutput(name = "filesOutput")
     public WritableFilesDataUnit filesOutput;
 
-    private List<File> inputFilesToProcess;
-
-//    private String inputFilesDir;
-
     public ExecuteShellScript() {
         super(ExecuteShellScriptVaadinDialog.class, ConfigHistory.noHistory(ExecuteShellScriptConfig_V1.class));
     }
@@ -74,8 +71,8 @@ public class ExecuteShellScript extends AbstractDpu<ExecuteShellScriptConfig_V1>
                 }
             }
             CommandLine cmdLine = new CommandLine(config.getScriptName());
+
             cmdLine.addArgument(confFilePath);
-//            cmdLine.addArgument(inputFilesDir);
             if (inpFilesList != null) {
                 cmdLine.addArgument(inpFilesList.getAbsolutePath());
             }
@@ -86,12 +83,27 @@ public class ExecuteShellScript extends AbstractDpu<ExecuteShellScriptConfig_V1>
             LOG.debug(String.format("Executing script: %s", commandLine));
 
             DefaultExecutor executor = new DefaultExecutor();
+            ExecuteStreamHandler handler = executor.getStreamHandler();
+            ByteArrayOutputStream stdout = new ByteArrayOutputStream();
+            PumpStreamHandler psh = new PumpStreamHandler(stdout);
+            executor.setStreamHandler(psh);
+            try {
+                handler.setProcessOutputStream(System.in);
+            } catch (IOException e) {
+                LOG.debug("Unable to change stdout for command '" + cmdLine + "'", e);
+            }
             executor.setWorkingDirectory(new File(URI.create(filesOutput.getBaseFileURIString())));
-            int result = executor.execute(cmdLine);
+            int result = -1;
+            try {
+                result = executor.execute(cmdLine);
+                LOG.debug("Script stdout/stderr:" + "\n" + stdout.toString());
+                LOG.debug(String.format("Script exit value: %d", result));
+            } catch (Exception ex) {
+                throw ContextUtils.dpuException(ctx, ex, "ExecuteShellScript.execute.exception");
+            } finally {
+                IOUtils.closeQuietly(stdout);
+            }
             if (result == 0) {
-//                for (File f : inputFilesToProcess) {
-//                    f.delete();
-//                }
                 File outputFolder = new File(config.getOutputDir());
                 for (File fileEntry : outputFolder.listFiles()) {
                     filesOutput.addExistingFile(fileEntry.getName(), fileEntry.toURI().toASCIIString());
@@ -122,26 +134,7 @@ public class ExecuteShellScript extends AbstractDpu<ExecuteShellScriptConfig_V1>
         return outputFile;
     }
 
-//    private void prepareInputFiles() {
-//        inputFilesToProcess = new ArrayList<File>();
-//        try {
-//            final List<FilesDataUnit.Entry> files = FaultToleranceUtils.getEntries(faultTolerance, filesInput, FilesDataUnit.Entry.class);
-//            File inputDir = new File(URI.create(filesOutput.getBaseFileURIString() + "input"));
-//            inputDir.mkdir();
-//            inputFilesDir = inputDir.getAbsolutePath();
-//            for (final FilesDataUnit.Entry entry : files) {
-//                File fileToPrepare = FilesDataUnitUtils.asFile(entry);
-//                File preparedFile = new File(inputDir, fileToPrepare.getName());
-//                Files.copy(fileToPrepare, preparedFile);
-//                inputFilesToProcess.add(preparedFile);
-//            }
-//        } catch (DataUnitException | DPUException | IOException ex) {
-//            LOG.error("Error preparing input files.", ex);
-//        }
-//
-//    }
     private File prepareInputFiles() {
-        inputFilesToProcess = new ArrayList<File>();
         File filesToProcessList = null;
         FileWriter writer = null;
         try {
