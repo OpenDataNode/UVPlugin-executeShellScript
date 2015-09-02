@@ -9,7 +9,7 @@
         <relativePath />
     </parent>
 
-    <groupId>eu.comsode.plugins</groupId>
+    <groupId>org.opendatanode.plugins</groupId>
     <artifactId>uv-e-executeShellScript</artifactId>
     <version>1.0.0-SNAPSHOT</version>
     <packaging>bundle</packaging>
@@ -17,7 +17,7 @@
     <description>Executes shell script with provided configuration</description>
 
     <properties>
-        <dpu.package>eu.comsode.unifiedviews.plugins.extractor.executeshellscript</dpu.package>
+        <dpu.package>org.opendatanode.plugins.extractor.executeshellscript</dpu.package>
         <dpu.mainClass>ExecuteShellScript</dpu.mainClass>
     </properties>
 

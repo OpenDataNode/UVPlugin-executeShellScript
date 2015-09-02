@@ -1,4 +1,4 @@
-package eu.comsode.unifiedviews.plugins.extractor.executeshellscript;
+package org.opendatanode.plugins.extractor.executeshellscript;
 
 import java.io.ByteArrayOutputStream;
 import java.io.File;

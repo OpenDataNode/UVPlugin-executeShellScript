@@ -1,5 +1,7 @@
-package eu.comsode.unifiedviews.plugins.extractor.executeshellscript;
+package org.opendatanode.plugins.extractor.executeshellscript;
 
+import org.opendatanode.plugins.extractor.executeshellscript.ExecuteShellScriptConfig_V1;
+import org.opendatanode.plugins.extractor.executeshellscript.ExecuteShellScript;
 import java.io.File;
 import java.net.URL;
 import java.util.Arrays;

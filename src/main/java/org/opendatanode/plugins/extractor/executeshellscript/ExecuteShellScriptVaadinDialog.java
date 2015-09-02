@@ -1,4 +1,4 @@
-package eu.comsode.unifiedviews.plugins.extractor.executeshellscript;
+package org.opendatanode.plugins.extractor.executeshellscript;
 
 import com.vaadin.ui.TextArea;
 import com.vaadin.ui.TextField;
