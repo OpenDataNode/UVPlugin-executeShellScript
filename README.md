@@ -1,49 +1,15 @@
-# E-ExecuteShellScript #
+E-ExecuteShellScript
 ----------
 
-###General###
+### Documentation
 
-|                              |                                                                             |
-|------------------------------|-----------------------------------------------------------------------------|
-|**Name:**                     |E-ExecuteShellScript                                                               |
-|**Description:**              |Executes shell script with provided configuration |
-|**Status:**                   |       |
-|                              |                                                                             |
-|**DPU class name:**           |ExecuteShellScript                                                                | 
-|**Configuration class name:** |ExecuteShellScriptConfig_V1                             |
-|**Dialogue class name:**      |ExecuteShellScriptVaadinDialog                      |
+* see [Plugin Documentation](./doc/About.md)
+* see [Plugin Documentation](./doc/About_sk.md) (in Slovak)
 
-***
+### Technical notes
 
-###Configuration parameters###
+N/A
 
-|Parameter                                       |Description                                                              |                                                        
-|------------------------------------------------|-------------------------------------------------------------------------|
-|Script name                                     |The name of script to execute                                            |
-|Configuration                                   |text which will be used as configuration for the script                  |
+### Version history
 
-***
-
-### Inputs and outputs ###
-
-|Name         |Type           |DataUnit     |Description             |
-|-------------|---------------|-------------|------------------------|
-|filesInut    |i              |FilesDataUnit|Optional DataUnit with script input files. |
-|filesOutput  |o              |FilesDataUnit|DataUnit which outputs all script output files. |
-
-***
-
-### Version history ###
-
-|Version          |Release notes               |
-|-----------------|----------------------------|
-|1.0.0-SNAPSHOT            |Initial release.|                            
-
-
-***
-
-### Developer's notes ###
-
-|Author           |Notes                           |
-|-----------------|--------------------------------|
-|N/A              |N/A                             | 
+* see [Changelog](./CHANGELOG.md)
